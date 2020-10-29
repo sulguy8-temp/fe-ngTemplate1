@@ -4,14 +4,12 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { LeftComponent } from './left/left.component';
 import { SearchComponent } from './search/search.component';
-import { CloudReviewComponent } from './cloud-review/cloud-review.component';
 @NgModule({
   declarations: [
     HeaderComponent, 
     FooterComponent, 
     LeftComponent, 
-    SearchComponent, 
-    CloudReviewComponent, 
+    SearchComponent
   ],
   imports: [
     CommonModule
@@ -20,8 +18,7 @@ import { CloudReviewComponent } from './cloud-review/cloud-review.component';
     HeaderComponent, 
     FooterComponent, 
     LeftComponent, 
-    SearchComponent, 
-    CloudReviewComponent, 
+    SearchComponent
   ]
 })
 export class ComponentModule { }
