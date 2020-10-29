@@ -1,0 +1,44 @@
+<div class="sign-in-form-wrap">
+    <div class="sign-in-form">
+      <h1 class="sign-in-form__header">
+          <a class="sign-in-form__header__link" href="/">
+            <span class="icon-page-login__a-1" aria-label="오늘의집"></span>
+  </a>    </h1>
+      <form class="sign-in-form__form" id="new_user" action="/users/sign_in" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="✓"><input type="hidden" name="authenticity_token" value="yUvddinLLvJagqt+drKKexiC8q0lgyxi3siFkW+oIFy5ljrpstprF6hmodQ+Yn3SpQydSG2ieZbRT1TvA1OZjg==">
+        
+        <input placeholder="이메일" autofocus="autofocus" class="sign-in-form__form__input form-control sign-in-form__form__email" type="text" value="" name="user[email]" id="user_email">
+        <div class="sign-in-form__form__input-wrap sign-in-form__form__password">
+          <input placeholder="비밀번호" autocomplete="off" class="sign-in-form__form__input form-control" type="password" name="user[password]" id="user_password">
+          <p class="sign-in-form__form__password__caps">Caps Lock이<br>켜져있네요!</p>
+        </div>
+  
+        <input type="hidden" name="remember_me" id="remember_me" value="checked">
+        <input type="hidden" name="is_pro" id="is_pro" value="false">
+        <input type="submit" name="commit" value="로그인" class="sign-in-form__form__submit btn btn-priority" data-disable-with="로그인">
+  </form>    <div class="sign-in-form__action">
+          <a class="sign-in-form__action__entry" href="/users/password/new">비밀번호 재설정</a>
+          <a class="sign-in-form__action__entry" href="/normal_users/new">회원가입</a>
+      </div>
+        <section class="sign-in-form__sns">
+          <h2 class="sign-in-form__sns__title">SNS계정으로 간편 로그인/회원가입</h2>
+          <div class="sign-in-form__sns__list">
+            <a class="sign-in-form__sns__entry" href="/users/auth/facebook">
+              <span class="icon-page-login__a-3" aria-label="페이스북으로 로그인"></span>
+  </a>          <a class="sign-in-form__sns__entry sign-in-form__sns__entry--kakao" href="/users/auth/kakao">
+              <span class="icon-page-login__c-3" aria-label="카카오계정으로 로그인"></span>
+  </a>          <a class="sign-in-form__sns__entry" href="/users/auth/naver">
+              <span class="icon-page-login__e-3" aria-label="네이버 아이디로 로그인"></span>
+  </a>        </div>
+        </section>
+        <section class="sign-in-form__guest-order">
+          <button class="sign-in-form__guest-order__title">
+            비회원 주문 조회하기
+          </button>
+          <form class="sign-in-form__guest-order__form sign-in-form__form" action="/orders" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="✓">
+            <input type="text" name="order_id" id="order_id" value="" placeholder="주문번호" class="sign-in-form__form__input form-control">
+            <input type="text" name="payer_email" id="payer_email" value="" placeholder="이메일" class="sign-in-form__form__input form-control">
+  
+            <input type="submit" name="commit" value="주문조회" class="sign-in-form__form__submit btn btn-priority">
+  </form>      </section>
+    </div>
+  </div>

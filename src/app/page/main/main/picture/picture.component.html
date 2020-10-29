@@ -1,0 +1,5 @@
+<div class="content">
+    <p>picture works!</p>
+    <app-cloud-review [cloudTexts]="this.cloudTexts" *ngIf="this.cloudReviewFlag"></app-cloud-review>
+    <button appPress (doublePress)="this.doublePress()" (longPress)="this.longPress()">Tab Test</button>
+</div>

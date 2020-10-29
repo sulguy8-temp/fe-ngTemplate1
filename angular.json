@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "fe-ngTemplate1"
+    }
+  },
+  "defaultProject": "fe-ngTemplate1",
+  "cli": {
+    "analytics": false
+  }
 }
