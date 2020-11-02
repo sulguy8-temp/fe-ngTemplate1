@@ -31,16 +31,16 @@ export class AuthInterceptor implements HttpInterceptor{
             headers: req.headers.set('x-angular', 'true')
         });
         if(!this.isDynein(req.url)){
-            let cui = this._storageService.getItem('cui');
+            let usi = this._storageService.getItem('usi');
             let common;
-            if(cui){
-                common = JSON.parse(cui);
+            if(usi){
+                common = JSON.parse(usi);
             }
-            if(!common|| !common['cuiId'] || !common['token']){
-                throw this.errorCode.err02;
-            }
-            id = common['cuiId'];
-            token = common['token'];
+            // if(!common|| !common['usiId'] || !common['token']){
+            //     throw this.errorCode.err02; 
+            // }
+            // id = common['usiId'];
+            // token = common['token'];
         }
         authReq = req.clone({
             headers: req.headers.set('x-angular', 'true').set('x-auth-id',id).set('x-auth-token',token)

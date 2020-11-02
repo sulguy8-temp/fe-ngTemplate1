@@ -6,7 +6,6 @@ import { CommonService } from 'src/app/common/service/common.service';
 import { CustomerInfoService } from 'src/app/common/service/customer-info.service';
 import { NavigateService } from 'src/app/common/service/navigate.service';
 import { StorageService } from 'src/app/common/service/storage.service';
-import { CustomerInfo } from 'src/app/common/vo/customer-info';
 import { UserInfo } from 'src/app/common/vo/user-info';
 
 const httpJson = {
@@ -65,9 +64,9 @@ export class PictureComponent implements OnInit {
         if(res['user']){
           this.ci.isLogined = true;
           this.ci.usi = res['user'];
-          this.ss.setItem('cui',JSON.stringify(res['user']))
-          await this.ss.setItem('cuiId',res['user']['cuiId']);
-          await this.ss.setItem('token',res['user']['token']);          
+          this.ss.setItem('usi',JSON.stringify(res['user']))
+          await this.ss.setItem('usiId',res['user']['usiId']);
+          await this.ss.setItem('token',res['user']['token']);         
           var url = '/main/pic2';
           if(this.ss.getItem('beforeUrl')){
             url = this.ss.getItem('beforeUrl');

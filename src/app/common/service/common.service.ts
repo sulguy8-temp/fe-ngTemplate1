@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { StorageService } from './storage.service';
 import { Router } from '@angular/router';
-import { CustomerInfo } from '../vo/customer-info';
 import { ErrorCode } from 'src/app/config/error-code';
 import { Env } from 'src/app/config/env';
 import { AppConfig } from 'src/app/config/app-config';
@@ -56,7 +55,8 @@ export class CommonService {
         }
       }else if(error){
         if(this.errorCode.err02==error){
-          window.location.reload();
+          // window.location.reload();
+          alert("로그인 해주세요")
         }
       }
       throw error;
@@ -143,7 +143,6 @@ export class CommonService {
         } else {
           list.splice(0, list.length);
         }
-        
         list.push.apply(list, res['data']);
         params['pageNum'] = parseInt(res['pageNum']);
         if (params['pageNum'] >= res['pages']) {

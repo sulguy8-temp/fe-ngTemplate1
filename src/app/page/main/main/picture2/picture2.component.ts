@@ -1,4 +1,5 @@
 import { Component, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
+import { CommonService } from 'src/app/common/service/common.service';
 
 @Component({
   selector: 'app-picture2',
@@ -8,10 +9,28 @@ import { Component, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@an
 export class Picture2Component implements OnInit {
   @ViewChild('itemsContainer', { read: ViewContainerRef }) itemsContainer: ViewContainerRef;
   @ViewChild('item', { read: TemplateRef }) item: TemplateRef<any>;
-  constructor() { }
+  usis = [];
+  param = {};
+
+  constructor(
+    public cs: CommonService,
+  ) { }
 
   ngOnInit(): void {
     this.buildData(5000);
+    this.param = {
+      goiType:'tic',
+      orders:'usi.credat desc, usi.cretim desc',
+      isEnd:false,
+      pageNum:1,
+      pageSize:10,
+    }
+    this.selectList();
+
+  }
+
+  async selectList(obj?, showPingi?) {
+    await this.cs.attachDataToList('/usr/usis', this.param, this.usis, obj, showPingi);
   }
 
   private buildData(length: number) {
