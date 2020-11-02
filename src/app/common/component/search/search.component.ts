@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigateService } from '../../service/navigate.service';
-import { ViewService } from '../../service/view.service';
 
 @Component({
   selector: 'app-search',
@@ -10,8 +9,7 @@ import { ViewService } from '../../service/view.service';
 export class SearchComponent implements OnInit {
 
   constructor(
-    public navigate: NavigateService,
-    public view: ViewService
+    public navigate: NavigateService
   ) { }
 
   ngOnInit(): void {

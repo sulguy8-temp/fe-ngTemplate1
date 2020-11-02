@@ -1,7 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { NavigateService } from '../../service/navigate.service';
-import { ViewService } from '../../service/view.service';
-
 
 @Component({
   selector: 'app-header',
@@ -13,8 +11,7 @@ export class HeaderComponent implements OnInit {
   @Output() leftView = new EventEmitter();
   
   constructor(
-    public navigate: NavigateService,
-    public view: ViewService
+    public navigate: NavigateService
   ) { }
 
   ngOnInit(): void {

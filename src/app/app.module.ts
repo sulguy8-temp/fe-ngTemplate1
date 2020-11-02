@@ -10,6 +10,9 @@ import { PasswordComponent } from './page/main/main/password/password.component'
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ComponentModule } from './common/component/component.module';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './common/service/interceptor/auth-interceptor';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -24,9 +27,12 @@ import { ComponentModule } from './common/component/component.module';
     CommonModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    ComponentModule
+    ComponentModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
