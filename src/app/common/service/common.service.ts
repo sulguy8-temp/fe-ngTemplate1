@@ -19,118 +19,89 @@ const httpFile = {
     { 'ENCTYPE': 'multipart/form-data' }
   )
 }
-const httpBiz = {
-  headers : new  HttpHeaders(
-    { 'Authorization': 'Bearer CuBqZzsXLEjvbD2w7H4k' }
-  )
-}
 @Injectable({
   providedIn: 'root'
 })
 export class CommonService {
-  errorCode:ErrorCode = new ErrorCode();
+  errorCode: ErrorCode = new ErrorCode();
   apiUrl: string = this.env.baseUrl;
   localUrl: string = this.env.localUrl;
-  bizUrl : string = this.env.bizUrl;
+  bizUrl: string = this.env.bizUrl;
   loginBlock = false;
-  huec: HttpUrlEncodingCodec = new HttpUrlEncodingCodec();
-  lastScrollTime: Date;
 
-  private  handleError<T>(operation = 'operation', result?: T) {
+  constructor(
+    private _http: HttpClient,
+    public env: Env,
+    private router: Router,
+    private ss: StorageService,
+    private commonConfig: AppConfig,
+    private _ccs: CommonControllerService,
+  ) { }
+
+  private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       if (error['error']) {
         if (error['error']['msg']) {
-          if(error['error']['errCode'] && error['error']['errCode']=='err01'){
-            
-            var url = '/main/home';
-            if(this.ss.getItem('beforeUrl')){
+          if (error['error']['errCode'] && error['error']['errCode'] == 'err01') {
+            var url = '/login';
+            if (this.ss.getItem('beforeUrl')) {
               url = this.ss.getItem('beforeUrl');
             }
             this.ss.removeAll();
             this.router.navigateByUrl(url);
             return;
-          }else{
-            this._ccs.alertMsg(error['error']['msg']);
+          } else {
+            alert(error['error']['msg']);
           }
         }
-      }else if(error){
-        if(this.errorCode.err02==error){
-          // window.location.reload();
-          alert("로그인 해주세요")
+      } else if (error) {
+        if (this.errorCode.err02 == error) {
+          window.location.reload();
         }
       }
       throw error;
     };
   }
 
-  constructor(private _http: HttpClient,
-    public env: Env,
-    private router: Router,
-    private ss:StorageService,
-    private commonConfig: AppConfig,
-    private _ccs: CommonControllerService,
-  ) { }
-
-  // async getGuestCui(){
-  //   var param = {
-  //     cuiId : 'guest',
-  //     cuiPwd : 'guest'
-  //   }
-  //   return this.promisePostJson<CustomerInfo>('login/user',param).then(
-  //     res=>{
-  //       this.ss.setItem('cui',JSON.stringify(res['user']));
-  //       return true;
-  //     },err=>{
-  //       console.log(err);
-  //     }
-  //   )  
-  // }
-
-  postJson<T>(url: string, obj: any, confs?: any): Observable<T> {
-    // this.env.isShowLoading = true;
-    url = `${this.apiUrl}${url}`;
-    if (this.dataValidation(obj, confs)) {
-      return this._http.post<T>(url, obj, httpJson).pipe(
-        tap(res => {
-          this.env.isHidden = false;
-        }),
-        catchError(this.handleError<T>(`obj = ${obj}`))
-      );
+  // ********************* Get Service *********************
+  private makeQuery(params: any) {
+    let query = '';
+    for (var key in params) {
+      query += key + '=' + encodeURIComponent(params[key]) + '&';
     }
-    return new Observable();
+    if (query != '') {
+      query = '?' + query;
+    }
+    return query;
   }
 
-  dataValidation(obj: any, confs: any): boolean {
-    if(this.loginBlock){
-      return false;
+  get<T>(url: string, params?: any): Observable<T> {
+    if (this.loginBlock) {
+      return;
     }
-    if (!confs) {
-      return true;
-    }
-    let valis = confs.valis;
-    let names = confs.names;
-    for (var key in valis) {
-      if (!obj[key] || obj[key].trim().length < valis[key]) {
-        this._ccs.alertMsg(names[key] + '는 ' + valis[key] + '글자 이상입니다.');
-        return false;
-      }
-    }
-    return true;
-  }
+    url = `${this.env.baseUrl}${url}${this.makeQuery(params)}`;
 
-  promisePostJson<T>(url: string, obj: any, confs?: any): Promise<T> {
-    this.env.isHidden = false;
-    url = `${this.apiUrl}${url}`;
-    return this._http.post<T>(url, obj, httpJson).pipe(
-      tap(res => {
-        this.env.isHidden = true;
+    return this._http.get<T>(url).pipe(
+      tap(async (res) => {
       }),
-      catchError(this.handleError<T>(`obj = ${obj}`))
+      catchError(this.handleError<T>(`obj = ${params}`)),
+    );
+  }
+
+  promiseGet<T>(url: string, params?: any): Promise<T> {
+    if (this.loginBlock) {
+      return;
+    }
+    url = `${this.env.baseUrl}${url}${this.makeQuery(params)}`;
+    return this._http.get<T>(url).pipe(
+      tap(async (res) => {
+      }),
+      catchError(this.handleError<T>(`obj = ${params}`)),
     ).toPromise();
   }
-  
-  async attachDataToList<T>(url: string, params: object, list: Array<T>, obj?, showPingi?:Boolean) {
-    if(this.loginBlock){
+
+  async attachDataToList<T>(url: string, params: object, list: Array<T>, obj?, showPingi?: Boolean) {
+    if (this.loginBlock) {
       return;
     }
     if (!params['pageSize']) {
@@ -155,78 +126,102 @@ export class CommonService {
     })
   }
 
-  get<T>(url: string, params?: any): Observable<T> {
-    if(this.loginBlock){
-      return;
+  // async getGuestCui(){
+  //   var param = {
+  //     cuiId : 'guest',
+  //     cuiPwd : 'guest'
+  //   }
+  //   return this.promisePostJson<CustomerInfo>('login/user',param).then(
+  //     res=>{
+  //       this.ss.setItem('cui',JSON.stringify(res['user']));
+  //       return true;
+  //     },err=>{
+  //       console.log(err);
+  //     }
+  //   )  
+  // }
+
+  // ********************* Post Service *********************
+  dataValidation(obj: any, confs: any): boolean {
+    if (this.loginBlock) {
+      return false;
     }
-    url = `${this.env.baseUrl}${url}${this.makeQuery(params)}`;
-    
-    return this._http.get<T>(url).pipe(
-      tap(async (res) => {
-      }),
-      catchError(this.handleError<T>(`obj = ${params}`)),
-    );
+    if (!confs) {
+      return true;
+    }
+    let valis = confs.valis;
+    let names = confs.names;
+    for (var key in valis) {
+      if (!obj[key] || obj[key].trim().length < valis[key]) {
+        this._ccs.alertMsg(names[key] + '는 ' + valis[key] + '글자 이상입니다.');
+        return false;
+      }
+    }
+    return true;
   }
 
-  promiseGet<T>(url: string, params?: any): Promise<T> {
-    if(this.loginBlock){
-      return;
+  postJson<T>(url: string, obj: any, confs?: any): Observable<T> {
+    // this.env.isShowLoading = true;
+    url = `${this.apiUrl}${url}`;
+    if (this.dataValidation(obj, confs)) {
+      return this._http.post<T>(url, obj, httpJson).pipe(
+        tap(res => {
+          this.env.isHidden = false;
+        }),
+        catchError(this.handleError<T>(`obj = ${obj}`))
+      );
     }
-    url = `${this.env.baseUrl}${url}${this.makeQuery(params)}`;
-    return this._http.get<T>(url).pipe(
-      tap(async (res) => {
+    return new Observable();
+  }
+
+  promisePostJson<T>(url: string, obj: any, confs?: any): Promise<T> {
+    this.env.isHidden = false;
+    url = `${this.apiUrl}${url}`;
+    return this._http.post<T>(url, obj, httpJson).pipe(
+      tap(res => {
+        this.env.isHidden = true;
       }),
-      catchError(this.handleError<T>(`obj = ${params}`)),
+      catchError(this.handleError<T>(`obj = ${obj}`))
     ).toPromise();
   }
 
-  private makeQuery(params: any) {
-    let query = '';
-    for (var key in params) {
-      query += key + '=' + encodeURIComponent(params[key]) + '&';
-    }
-    if (query != '') {
-      query = '?' + query;
-    }
-    return query;
-  }
-
+  // ********************* File Post Service *********************
   private makeFormData(obj): FormData {
     const formData = new FormData();
     let countImgFile = 0;
-    let sumImgSize = 0;        
+    let sumImgSize = 0;
     for (var key in obj) {
-      if(!obj[key]){
+      if (!obj[key]) {
         delete obj[key];
         continue;
       }
-      if(!(key.includes('Nums'))){
+      if (!(key.includes('Nums'))) {
         if (obj[key] instanceof Array) {
           for (var index in obj[key]) {
             if (obj[key] && obj[key][index]) {
               for (var subKey in obj[key][index]) {
                 if ((subKey.includes('img') && !subKey.includes('Name'))
-                || (subKey.includes('Img') && !subKey.includes('Name'))) {
+                  || (subKey.includes('Img') && !subKey.includes('Name'))) {
                   if (obj[key][index][subKey]) {
                     delete obj[key][index][subKey + 'Name'];
                     let fileSize = obj[key][index][subKey]['size'];
-                    if(fileSize > this.commonConfig.MAX_FILE_SIZE){
+                    if (fileSize > this.commonConfig.MAX_FILE_SIZE) {
                       this._ccs.alertMsg('업로드 가능한 단일 파일의 최대크기를 초과하였습니다.(10MB)');
-                      console.log(fileSize/1024/1024 + ' MB');
+                      console.log(fileSize / 1024 / 1024 + ' MB');
                       return;
                     }
                     sumImgSize += fileSize;
-                    if(sumImgSize > this.commonConfig.MAX_FILES_SIZE){
+                    if (sumImgSize > this.commonConfig.MAX_FILES_SIZE) {
                       this._ccs.alertMsg('한번에 업로드 가능한 파일크기를 초과하였습니다.(30MB)');
-                      console.log(sumImgSize/1024/1024 + ' MB');
+                      console.log(sumImgSize / 1024 / 1024 + ' MB');
                       return;
-                    }                    
+                    }
                     countImgFile++
                   }
                 }
                 if ((subKey.includes('img') && subKey.includes('Name'))
-                || (subKey.includes('Img') && subKey.includes('Name'))) {
-                  if (obj[key][index][subKey]?obj[key][index][subKey].length < 100:true) {
+                  || (subKey.includes('Img') && subKey.includes('Name'))) {
+                  if (obj[key][index][subKey] ? obj[key][index][subKey].length < 100 : true) {
                     delete obj[key][index][subKey.substr(0, subKey.length - 4)];
                   }
                 }
@@ -236,33 +231,33 @@ export class CommonService {
           }
         } else {
           if ((key.includes('img') && key.includes('Name'))
-           || (key.includes('Img') && key.includes('Name'))) {
-            if (obj[key]?obj[key].length < 100:true) {
+            || (key.includes('Img') && key.includes('Name'))) {
+            if (obj[key] ? obj[key].length < 100 : true) {
               delete obj[key.substr(0, key.length - 4)];
             }
           }
           if ((key.includes('img') && !key.includes('Name'))
-          || (key.includes('Img') && !key.includes('Name'))) {
+            || (key.includes('Img') && !key.includes('Name'))) {
             if (obj[key]) {
               delete obj[key + 'Name'];
               let fileSize = obj[key]['size'];
-              if(fileSize > this.commonConfig.MAX_FILE_SIZE){
+              if (fileSize > this.commonConfig.MAX_FILE_SIZE) {
                 this._ccs.alertMsg('업로드 가능한 단일 파일의 최대크기를 초과하였습니다.(10MB)');
-                console.log(fileSize/1024/1024 + ' MB');
+                console.log(fileSize / 1024 / 1024 + ' MB');
                 return;
               }
               sumImgSize += fileSize;
-              if(sumImgSize > this.commonConfig.MAX_FILES_SIZE){
+              if (sumImgSize > this.commonConfig.MAX_FILES_SIZE) {
                 this._ccs.alertMsg('한번에 업로드 가능한 파일크기를 초과하였습니다.(30MB)');
-                console.log(sumImgSize/1024/1024 + ' MB');
+                console.log(sumImgSize / 1024 / 1024 + ' MB');
                 return;
-              }                    
+              }
               countImgFile++
             }
           }
           formData.append(key, obj[key]);
         }
-      }else{
+      } else {
         formData.append(key, obj[key]);
       }
     }
@@ -275,20 +270,21 @@ export class CommonService {
     const data = this.makeFormData(obj);
     return this._http.post<T>(url, data, httpFile).pipe(
       tap(res => {
-        
+
         this.env.isHidden = true;
       }
       ),
       catchError(this.handleError<T>(`obj = ${obj}`))
     );
   }
+
   promisePostFile<T>(url, obj): Promise<T> {
     this.env.isHidden = false;
     url = `${this.apiUrl}${url}`;
     const data = this.makeFormData(obj);
     return this._http.post<T>(url, data, httpFile).pipe(
       tap(res => {
-        
+
         this.env.isHidden = true;
       }
       ),

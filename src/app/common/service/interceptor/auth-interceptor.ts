@@ -6,7 +6,7 @@ import { ErrorCode } from 'src/app/config/error-code';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor{
-    private dyneinList:string[] = ['system/all','login/user','adm/login','test'];
+    private dyneinList:string[] = ['login'];
     private errorCode:ErrorCode = new ErrorCode();
 
     constructor(
@@ -36,11 +36,11 @@ export class AuthInterceptor implements HttpInterceptor{
             if(usi){
                 common = JSON.parse(usi);
             }
-            // if(!common|| !common['usiId'] || !common['token']){
-            //     throw this.errorCode.err02; 
-            // }
-            // id = common['usiId'];
-            // token = common['token'];
+            if(!common|| !common['usiId'] || !common['token']){
+                throw this.errorCode.err02; 
+            }
+            id = common['usiId'];
+            token = common['token'];
         }
         authReq = req.clone({
             headers: req.headers.set('x-angular', 'true').set('x-auth-id',id).set('x-auth-token',token)

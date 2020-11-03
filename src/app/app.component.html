@@ -1,5 +1,6 @@
 <!-- 이동 되는구간 -->
 <!-- 가능페이지 메인/로그인(sign-in)/회원가입/비밀번호찾기 -->
-<router-outlet></router-outlet>
+<div class="loader" *ngIf="false"></div>
+<router-outlet *ngIf="true"></router-outlet>
 <!-- 하단배너 (우측하단에서의 상품/이벤트 배너의 역할 / 추후 토스트 추가시 동일 위치에 추가 될 것으로 예상)-->
 <a class="bottom-right-banner"></a>

@@ -22,23 +22,10 @@ const httpJson = {
 export class PictureComponent implements OnInit {
   cloudReviewFlag: boolean;
   cloudTexts: string;
-  
-  // 로그인 관련
-  userInfo:any = {};
-  usi:UserInfo = new UserInfo();
-  oAuthUrl:string = 'auth/login/';
-  loginUrl:string = 'login/user';
-  previousUrl: string;
-  isActive : boolean =true;
-
 
   constructor(
-    private _http: HttpClient,
     public cs: CommonService,
     public ccs: CommonControllerService,
-    private ss:StorageService,
-    private ci: CustomerInfoService,
-    private navigate: NavigateService
   ) { }
 
   ngOnInit() {
@@ -55,29 +42,7 @@ export class PictureComponent implements OnInit {
   }
 
   longPress(){
-    this.cloudReviewFlag = this.cloudReviewFlag? false : true;
+    alert("longPress!")
   }
 
-  async login(){
-    await this.cs.postJson<UserInfo>(this.loginUrl,this.usi).subscribe(
-      async res=>{
-        if(res['user']){
-          this.ci.isLogined = true;
-          this.ci.usi = res['user'];
-          this.ss.setItem('usi',JSON.stringify(res['user']))
-          await this.ss.setItem('usiId',res['user']['usiId']);
-          await this.ss.setItem('token',res['user']['token']);         
-          var url = '/main/pic2';
-          if(this.ss.getItem('beforeUrl')){
-            url = this.ss.getItem('beforeUrl');
-            this.ss.removeItem('beforeUrl');
-          }
-          this.navigate.goPage(url);
-          this.usi = new UserInfo();
-        }
-      },err=>{
-        console.log(err);
-      }
-    )
-  }
 }

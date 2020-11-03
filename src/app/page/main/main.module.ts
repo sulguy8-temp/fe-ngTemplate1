@@ -7,8 +7,6 @@ import { DirectiveModule } from 'src/app/common/directive/directive.module';
 import { MainRoutingModule } from './main-routing.module';
 import { PictureComponent } from './main/picture/picture.component';
 import { Picture2Component } from './main/picture2/picture2.component';
-
-
 @NgModule({
   declarations: [
     PictureComponent,
@@ -22,4 +20,5 @@ import { Picture2Component } from './main/picture2/picture2.component';
     DirectiveModule
   ]
 })
+
 export class MainModule { }

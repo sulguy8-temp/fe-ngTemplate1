@@ -11,8 +11,9 @@ const routes: Routes = [
     children: [
       { 
         path: '', 
-        redirectTo: 'pic1', 
-        pathMatch: 'full' },
+        redirectTo: '/main/pic1', 
+        pathMatch: 'full' 
+      },
       {
         path: 'pic1',
         component: PictureComponent
