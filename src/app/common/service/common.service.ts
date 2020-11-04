@@ -40,24 +40,9 @@ export class CommonService {
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-      if (error['error']) {
-        if (error['error']['msg']) {
-          if (error['error']['errCode'] && error['error']['errCode'] == 'err01') {
-            var url = '/login';
-            if (this.ss.getItem('beforeUrl')) {
-              url = this.ss.getItem('beforeUrl');
-            }
-            this.ss.removeAll();
-            this.router.navigateByUrl(url);
-            return;
-          } else {
-            alert(error['error']['msg']);
-          }
-        }
-      } else if (error) {
-        if (this.errorCode.err02 == error) {
-          window.location.reload();
-        }
+      if(error == 'token error'){
+        alert("로그인이 필요한 서비스입니다.")
+        this.router.navigateByUrl('/login');
       }
       throw error;
     };

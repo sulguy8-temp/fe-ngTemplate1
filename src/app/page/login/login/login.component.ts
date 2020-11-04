@@ -63,7 +63,7 @@ export class LoginComponent implements OnInit {
           this.usi = new UserInfo();
         }
       },err=>{
-        console.log(err);
+        alert(err['error']['msg']);
       }
     )
   }
