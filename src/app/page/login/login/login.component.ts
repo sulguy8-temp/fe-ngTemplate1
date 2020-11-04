@@ -1,6 +1,4 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { CommonControllerService } from 'src/app/common/service/common-controller.service';
 import { CommonService } from 'src/app/common/service/common.service';
 import { CustomerInfoService } from 'src/app/common/service/customer-info.service';
 import { NavigateService } from 'src/app/common/service/navigate.service';
@@ -20,7 +18,6 @@ export class LoginComponent implements OnInit {
   
   constructor(
     public cs: CommonService,
-    public ccs: CommonControllerService,
     private ss:StorageService,
     private ci: CustomerInfoService,
     private navigate: NavigateService

@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
-
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, CanActivate, ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
 import { CustomerInfoService } from './customer-info.service';
 import { NavigateService } from './navigate.service';
-import { CommonControllerService } from './common-controller.service';
 import { StorageService } from './storage.service';
 @Injectable({
   providedIn: 'root'
@@ -12,12 +9,8 @@ import { StorageService } from './storage.service';
 
 export class RouterGuardService implements CanActivate {
   constructor(
-    private _router:Router,
-    private ac: ActivatedRoute,
-    private lc: Location,
     private ci: CustomerInfoService,
     private navigate : NavigateService,
-    private cc: CommonControllerService,
     private ss: StorageService
   ) {}
 

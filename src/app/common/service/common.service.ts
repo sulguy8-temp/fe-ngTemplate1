@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpUrlEncodingCodec } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { StorageService } from './storage.service';
 import { Router } from '@angular/router';
 import { ErrorCode } from 'src/app/config/error-code';
 import { Env } from 'src/app/config/env';
 import { AppConfig } from 'src/app/config/app-config';
-import { CommonControllerService } from './common-controller.service';
+import { StorageService } from './storage.service';
 
 const httpJson = {
   headers: new HttpHeaders(
@@ -33,14 +32,14 @@ export class CommonService {
     private _http: HttpClient,
     public env: Env,
     private router: Router,
-    private ss: StorageService,
     private commonConfig: AppConfig,
-    private _ccs: CommonControllerService,
+    private ss: StorageService
   ) { }
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       if(error == 'token error'){
+        this.ss.removeAll();
         alert("로그인이 필요한 서비스입니다.")
         this.router.navigateByUrl('/login');
       }
@@ -138,7 +137,7 @@ export class CommonService {
     let names = confs.names;
     for (var key in valis) {
       if (!obj[key] || obj[key].trim().length < valis[key]) {
-        this._ccs.alertMsg(names[key] + '는 ' + valis[key] + '글자 이상입니다.');
+        alert(names[key] + '는 ' + valis[key] + '글자 이상입니다.');
         return false;
       }
     }
@@ -191,13 +190,13 @@ export class CommonService {
                     delete obj[key][index][subKey + 'Name'];
                     let fileSize = obj[key][index][subKey]['size'];
                     if (fileSize > this.commonConfig.MAX_FILE_SIZE) {
-                      this._ccs.alertMsg('업로드 가능한 단일 파일의 최대크기를 초과하였습니다.(10MB)');
+                      alert('업로드 가능한 단일 파일의 최대크기를 초과하였습니다.(10MB)');
                       console.log(fileSize / 1024 / 1024 + ' MB');
                       return;
                     }
                     sumImgSize += fileSize;
                     if (sumImgSize > this.commonConfig.MAX_FILES_SIZE) {
-                      this._ccs.alertMsg('한번에 업로드 가능한 파일크기를 초과하였습니다.(30MB)');
+                      alert('한번에 업로드 가능한 파일크기를 초과하였습니다.(30MB)');
                       console.log(sumImgSize / 1024 / 1024 + ' MB');
                       return;
                     }
@@ -227,13 +226,13 @@ export class CommonService {
               delete obj[key + 'Name'];
               let fileSize = obj[key]['size'];
               if (fileSize > this.commonConfig.MAX_FILE_SIZE) {
-                this._ccs.alertMsg('업로드 가능한 단일 파일의 최대크기를 초과하였습니다.(10MB)');
+                alert('업로드 가능한 단일 파일의 최대크기를 초과하였습니다.(10MB)');
                 console.log(fileSize / 1024 / 1024 + ' MB');
                 return;
               }
               sumImgSize += fileSize;
               if (sumImgSize > this.commonConfig.MAX_FILES_SIZE) {
-                this._ccs.alertMsg('한번에 업로드 가능한 파일크기를 초과하였습니다.(30MB)');
+                alert('한번에 업로드 가능한 파일크기를 초과하였습니다.(30MB)');
                 console.log(sumImgSize / 1024 / 1024 + ' MB');
                 return;
               }

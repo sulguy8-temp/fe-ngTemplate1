@@ -11,8 +11,7 @@ import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ComponentModule } from './common/component/component.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AuthInterceptor } from './common/service/interceptor/auth-interceptor';
-import { FormsModule } from '@angular/forms';
+import { AuthInterceptor } from './config/interceptor/auth-interceptor';
 
 @NgModule({
   declarations: [
