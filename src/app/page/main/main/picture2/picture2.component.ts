@@ -1,5 +1,6 @@
 import { Component, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
 import { CommonService } from 'src/app/common/service/common.service';
+import { NavigateService } from 'src/app/common/service/navigate.service';
 
 @Component({
   selector: 'app-picture2',
@@ -14,6 +15,7 @@ export class Picture2Component implements OnInit {
 
   constructor(
     public cs: CommonService,
+    private nav: NavigateService
   ) { }
 
   ngOnInit(): void {
@@ -26,7 +28,6 @@ export class Picture2Component implements OnInit {
       pageSize:10,
     }
     this.selectList();
-
   }
 
   async selectList(obj?, showPingi?) {

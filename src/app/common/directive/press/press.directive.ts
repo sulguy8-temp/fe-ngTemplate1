@@ -44,12 +44,12 @@ export class PressDirective {
     var timesince = now - this.tapTimes;
     // 더블터치를 위한 터치간 시간조절
     if ((timesince < 300) && (timesince > 0)) {
-      doublePressEmiiter.emit();
+      doublePressEmiiter.emit(e);
     } else {
       this.tapTimes = now;
       this.timer = setTimeout(function () {
         this.timer = null;
-        longPressEmiiter.emit();
+        longPressEmiiter.emit(e);
         // 터치시간 조절
       }, 800);
     }
