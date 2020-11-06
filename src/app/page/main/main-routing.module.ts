@@ -4,6 +4,7 @@ import { MainComponent } from './main/main.component';
 import { PictureComponent } from './main/picture/picture.component';
 import { Picture2Component } from './main/picture2/picture2.component';
 import { Picture3Component } from './main/picture3/picture3.component';
+import { Picture4Component } from './main/picture4/picture4.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,10 @@ const routes: Routes = [
       {
         path: 'pic3',
         component: Picture3Component
+      },
+      {
+        path: 'pic4',
+        component: Picture4Component
       }
     ]
   }

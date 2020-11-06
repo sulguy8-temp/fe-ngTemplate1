@@ -4,6 +4,7 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { LeftComponent } from './left/left.component';
 import { SearchComponent } from './search/search.component';
+import { ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     HeaderComponent, 
@@ -12,7 +13,8 @@ import { SearchComponent } from './search/search.component';
     SearchComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    ReactiveFormsModule
   ],
   exports: [
     HeaderComponent, 
