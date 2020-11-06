@@ -37,7 +37,7 @@ export class PictureComponent implements OnInit {
     // 화면에서 결과확인
 
     // # Case4 : 2개의 Observable 객체를 하나로 묶어서 사용하는 방법
-    // this.case4();
+    this.case4();
     // 화면에서 결과확인
   }
 
@@ -88,7 +88,7 @@ export class PictureComponent implements OnInit {
   count: number = 0;
 
   mouseEvent() {
-    this.mousePositon$ = fromEvent(document.querySelector('.tracingBox'), 'mousemove');
+    this.mousePositon$ = fromEvent(document.querySelector('.content'), 'mousemove');
     this.event$ = this.mousePositon$.subscribe({
       next: (event: MouseEvent) => {
         console.log(event)
@@ -117,24 +117,13 @@ export class PictureComponent implements OnInit {
   longPress(e) {
     console.log(e)
     alert("Stop Working!")
-    
     // # Click Event
     alert("x : " + e.offsetX + ", y : " + e.offsetY)
-    this.placeDiv(e.offsetX,e.offsetY);
     // $ Touch Event
     // alert("x : " + (e.touches[0].pageX - e.touches[0].target.offsetLeft) + ", y : " + (e.touches[0].pageY - e.touches[0].target.offsetTop))
     // this.placeDiv((e.touches[0].pageX - e.touches[0].target.offsetLeft),(e.touches[0].pageY - e.touches[0].target.offsetTop));
-
     this.count = 0;
     this.event$.unsubscribe();
-  }
-
-  placeDiv(x_pos, y_pos) {
-    var d = document.getElementById('tracingDot');
-    d.style.position = "absolute";
-    d.style.border = "solid";
-    d.style.left = x_pos+'px';
-    d.style.top = y_pos+'px';
   }
 
   /******************************* Case3 *******************************/
@@ -169,7 +158,7 @@ export class PictureComponent implements OnInit {
 
   case4() {
     // this.name의 value의 변화를 감지하는 observer 객체 생산
-    const name$ = this.name.valueChanges
+    const name$ = this.name.statusChanges
       // Pipeable Operator 사용
       // 연결된 파이퍼블 연산자는 각 연산자를 거치며 새로운 옵저버블 인스턴스를 리턴
       .pipe(startWith(''))            // name을 ''로 초기화

@@ -1,0 +1,8 @@
+.dotBox {
+    position: relative;
+    width: 500px;
+    height: 500px;
+    border: solid;
+    display: inline-block;
+    vertical-align: middle;
+}

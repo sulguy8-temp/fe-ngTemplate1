@@ -29,6 +29,7 @@ import { Router } from '@angular/router';
   ]
 })
 
+
 export class MainComponent implements OnInit {
   filterValue: number;
   leftViewFlag: boolean;
@@ -42,7 +43,7 @@ export class MainComponent implements OnInit {
   ) {
     this.router.events.subscribe((event) =>
       this.leftViewFlag = false
-    );
+    )
   }
 
   ngOnInit() {
@@ -59,7 +60,7 @@ export class MainComponent implements OnInit {
   }
 
   leftView() {
-    this.leftViewFlag = this.leftViewFlag? false : true;
+    this.leftViewFlag = this.leftViewFlag ? false : true;
   }
 
 }

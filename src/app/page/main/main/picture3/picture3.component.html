@@ -1,0 +1,8 @@
+
+<div appPress id="dotBox" class="dotBox" (doublePress)="this.placeDot($event)" (longPress)="this.deleteDot($event)">
+    <button (click)="addDot()">추가</button>
+    <div *ngFor="let dot of this.list; let i = index">
+        <div id="dotNum{{ i }}">dot</div>
+    </div>
+</div>
+

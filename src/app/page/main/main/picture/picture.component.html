@@ -1,22 +1,21 @@
 <div class="content"> 
-    <div appPress id="tracingBox" class="tracingBox" (doublePress)="this.doublePress($event)" (longPress)="this.longPress($event)">
+    <div appPress (doublePress)="this.doublePress($event)" (longPress)="this.longPress($event)">
+        <h1> ## Case 2 ##</h1>
         X: {{ posX }} Y: {{ posY }}
-        <div id="tracingDot"></div>
     </div>
-
-
     <h1> ## Case 3 ##</h1>
     <h3>interval : {{ x }}</h3>
     <!-- source$가 옵저버블 인스턴스이기 때문에 '| async' 사용이 가능한 것-->
     <!-- <h3>interval : {{ source$ | async }}</h3> -->
 
     <h1> ## Case 4 ##</h1>
-    <input type="text" [formControl]="name">
+    <input type="text" [formControl]="name" />
     <div> 입력된 내용은 {{ name$ | async }}</div>
     <ul>
         <li *ngFor="let user of filtered$ | async">
             {{ user }}
         </li>
     </ul>
-    1
 </div>
+
+<input type="text" />
