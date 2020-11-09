@@ -17,7 +17,7 @@ export class Picture4Component implements OnInit {
   }
 
   profileForm2 = this.fb.group({
-    firstName: ['', Validators.required],
+    firstName: ['', Validators.required, Validators.minLength(4), this.forbiddenNameValidator(/bob/i)],
     lastName: [''],
     address: this.fb.group({
       street: [''],

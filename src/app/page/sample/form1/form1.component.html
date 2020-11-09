@@ -1,0 +1,130 @@
+<form [formGroup]="sampleForm">
+  <p>
+    <button (click)="updateSampleProfile()">Get Sample Profile</button>
+  </p>
+
+  <label>
+    image:
+    <input type="file" (change)="onFileChange($event)" formControlName="file" />
+  </label><br>
+  <div style="border : solid">
+    imageBox:
+    <img [src]="url" alt="">
+  </div>
+  <div *ngIf="getAttr.file.touched && getAttr.file.invalid" class="alert alert-danger">
+    <div *ngIf="getAttr.file.errors.required">File is required.</div>
+  </div>
+
+  <label>
+    id:
+    <input type="id" formControlName="id">
+  </label><br>
+
+  <div *ngIf="getAttr.id.invalid && (getAttr.id.dirty || getAttr.id.touched)">
+    <div *ngIf="getAttr.id.errors.required">
+      ID는 필수값입니다.
+    </div>
+    <div *ngIf="getAttr.id.errors.minlength">
+      ID는 최소 6 ~ 10글자 사이입니다.
+    </div>
+    <div *ngIf="getAttr.id.errors.maxlength">
+      ID는 최소 6 ~ 10글자 사이입니다.
+    </div>
+  </div>
+
+  <label>
+    password:
+    <input type="password" formControlName="password">
+  </label><br>
+
+  <label>
+    passwordCheck:
+    <input type="password" formControlName="passwordCheck">
+  </label><br>
+
+  <div *ngIf="getAttr.passwordCheck.invalid && (getAttr.passwordCheck.dirty || getAttr.passwordCheck.touched)">
+    <div *ngIf="!getAttr.passwordCheck.errors.isMatching">
+      비밀번호가 일치하지 않습니다.
+    </div>
+  </div>
+
+  <label>
+    First Name:
+    <input type="text" formControlName="firstName">
+  </label><br>
+
+  <label>
+    Last Name:
+    <input type="text" formControlName="lastName">
+  </label><br>
+
+  <label>
+    Email:
+    <input type="text" formControlName="email">
+  </label><br>
+
+  <label>
+    Gender:
+    Man
+    <input type="radio" formControlName="gender" value="0">
+    Woman
+    <input type="radio" formControlName="gender" value="1">
+  </label>
+
+  <div formGroupName="address">
+    <h3>Address</h3>
+
+    <label>
+      Street:
+      <input type="text" formControlName="street">
+    </label><br>
+
+    <label>
+      City:
+      <input type="text" formControlName="city">
+    </label><br>
+
+    <label>
+      State:
+      <input type="text" formControlName="state">
+    </label><br>
+
+    <label>
+      Zip Code:
+      <input type="text" formControlName="zip">
+    </label>
+  </div>
+
+  <div formArrayName="hobbyList">
+    <h3>Hobby <button (click)="addHobby()">Add</button></h3>
+    <div *ngFor="let list of hobbyList.controls; let i=index">
+      <label>
+        <input type="text" [formControlName]="i">
+      </label>
+      <button (click)="deleteHobby(i)">Delete</button>
+    </div>
+  </div>
+
+  <h3>Class
+    <select formControlName="classes" id="classes">
+      <option *ngFor="let class of tmpClasses; let i = index" [value]="class">
+        {{ class }}
+      </option>
+    </select><br>
+  </h3>
+  <button type="submit" (click)="onSubmit()" [disabled]="!sampleForm.valid">Submit</button>
+</form>
+
+<!-- Result -->
+<div>
+  <p>
+    Form Value: {{ this.sampleFormAll }}
+  </p>
+  <p>
+    Form Status: {{ sampleForm.status }}
+  </p>
+  <button (click)="findInvalid()">Invalid값 찾기</button>
+  <p>
+    Invalid List: {{ this.invalidList }}
+  </p>
+</div>
